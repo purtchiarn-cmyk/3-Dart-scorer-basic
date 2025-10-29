@@ -28,7 +28,8 @@
 html,body {
   height:100%;margin:0;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  background:var(--bg);color:var(--text);transition:background .3s,color .3s;
+  background:var(--bg);color:var(--text);
+  transition:background .3s,color .3s;
 }
 .wrap {
   max-width:420px;margin:0 auto;padding:20px;
@@ -40,8 +41,7 @@ header {
 h1 {margin:0;font-size:20px;}
 .theme-toggle {
   position:absolute;right:0;top:0;background:none;border:none;
-  font-size:22px;color:var(--muted);cursor:pointer;
-  transition:transform .2s;
+  font-size:22px;color:var(--muted);cursor:pointer;transition:transform .2s;
 }
 .theme-toggle:active{transform:scale(0.9);}
 p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
@@ -50,9 +50,7 @@ p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
   background:var(--card);border-radius:14px;padding:12px;
   box-shadow:0 6px 18px rgba(0,0,0,0.4);transition:background .3s;
 }
-.slots {
-  display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;
-}
+.slots {display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;}
 .slot {
   flex:1;background:var(--slot-bg);border-radius:10px;padding:10px;text-align:center;
   min-height:66px;display:flex;flex-direction:column;justify-content:center;align-items:center;
@@ -61,14 +59,10 @@ p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
 .slot .label {font-size:12px;color:var(--muted);margin-bottom:6px;}
 .slot .value {font-size:18px;font-weight:600;}
 .slot .sub {font-size:12px;color:var(--muted);margin-top:4px;}
-.total-row {
-  display:flex;justify-content:space-between;align-items:center;margin-top:8px;
-}
+.total-row {display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
 .total-row .tot-label {color:var(--muted);font-size:13px;}
 .total-row .tot-val {font-size:20px;font-weight:700;}
-.controls {
-  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;
-}
+.controls {display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;}
 .control-btn {
   padding:10px 12px;border-radius:10px;background:var(--btn);
   border:none;color:var(--text);font-size:15px;min-width:96px;
@@ -77,9 +71,7 @@ p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
 }
 .control-btn:active{transform:scale(.98);}
 .control-btn:hover{background:var(--btn-hover);}
-.mutators {
-  display:flex;gap:8px;justify-content:center;margin-bottom:10px;
-}
+.mutators {display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
 .mutator {
   padding:10px 12px;border-radius:10px;background:transparent;border:1px solid #222;
   color:var(--muted);min-width:64px;text-align:center;font-weight:600;cursor:pointer;
@@ -90,9 +82,7 @@ p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
   background:var(--accent);color:#fff;border-color:transparent;
   box-shadow:0 6px 14px rgba(10,132,255,0.15);
 }
-.grid {
-  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;
-}
+.grid {display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
 .cell {
   background:var(--btn);padding:12px;border-radius:10px;text-align:center;
   font-weight:700;font-size:16px;cursor:pointer;user-select:none;
@@ -100,9 +90,7 @@ p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
 }
 .cell:active{transform:scale(.97);}
 .cell:hover{background:var(--btn-hover);}
-footer {
-  margin-top:auto;text-align:center;color:var(--muted);font-size:12px;padding-bottom:12px;
-}
+footer {margin-top:auto;text-align:center;color:var(--muted);font-size:12px;padding-bottom:12px;}
 </style>
 </head>
 <body>
@@ -122,22 +110,22 @@ footer {
     <div class="total-row"><div class="tot-label">Turn Total</div><div class="tot-val" id="total">0</div></div>
 
     <div class="mutators">
-      <button class="mutator" data-mult="D" id="doubleBtn">D</button>
-      <button class="mutator" data-mult="T" id="trebleBtn">T</button>
-      <button class="mutator" data-mult="M" id="missBtn">Miss</button>
+      <button class="mutator" data-mult="D">D</button>
+      <button class="mutator" data-mult="T">T</button>
+      <button class="mutator" data-mult="M">Miss</button>
     </div>
 
-    <div class="grid" id="grid">
+    <div class="grid">
       <!-- 20–16 -->
-      <div class="cell">20</div><div class="cell">19</div><div class="cell">18</div><div class="cell">17</div><div class="cell">16</div>
+      <button class="cell">20</button><button class="cell">19</button><button class="cell">18</button><button class="cell">17</button><button class="cell">16</button>
       <!-- 15–11 -->
-      <div class="cell">15</div><div class="cell">14</div><div class="cell">13</div><div class="cell">12</div><div class="cell">11</div>
+      <button class="cell">15</button><button class="cell">14</button><button class="cell">13</button><button class="cell">12</button><button class="cell">11</button>
       <!-- 10–6 -->
-      <div class="cell">10</div><div class="cell">9</div><div class="cell">8</div><div class="cell">7</div><div class="cell">6</div>
+      <button class="cell">10</button><button class="cell">9</button><button class="cell">8</button><button class="cell">7</button><button class="cell">6</button>
       <!-- 5–1 -->
-      <div class="cell">5</div><div class="cell">4</div><div class="cell">3</div><div class="cell">2</div><div class="cell">1</div>
+      <button class="cell">5</button><button class="cell">4</button><button class="cell">3</button><button class="cell">2</button><button class="cell">1</button>
       <!-- specials -->
-      <div class="cell">25</div><div class="cell">BULL</div><div class="cell">MISS</div><div class="cell" id="backspace">⌫</div><div class="cell" id="empty"></div>
+      <button class="cell">25</button><button class="cell">BULL</button><button class="cell">MISS</button><button class="cell" id="backspace">⌫</button><button class="cell" disabled></button>
     </div>
 
     <div class="controls" style="margin-top:12px;">
@@ -147,87 +135,122 @@ footer {
     </div>
   </section>
 
-  <footer>Tap numbers to fill Dart 1 → Dart 3.  🌗 toggles light/dark theme.</footer>
+  <footer>Tap numbers to fill Dart 1 → Dart 3. 🌗 toggles light/dark theme.</footer>
 </div>
 
 <script>
-let multiplier = null; // D, T, M, null=single
-let darts = [null,null,null];
+let multiplier = null; // D, T, M or null = single
+let darts = [null, null, null];
 let lastSaved = null;
 
-// Elements
-const dEls=[d1,d2,d3].map(id=>document.getElementById(id));
-const sEls=[s1,s2,s3].map(id=>document.getElementById(id));
-const totalEl=document.getElementById('total');
-const mutators=document.querySelectorAll('.mutator');
+const dEls = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3')];
+const sEls = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
+const totalEl = document.getElementById('total');
 
-// Multiplier toggle logic
-mutators.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    if(btn.classList.contains('active')){
-      btn.classList.remove('active');multiplier=null;return;
+// Mutator toggle logic
+const mutators = document.querySelectorAll('.mutator');
+mutators.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) {
+      btn.classList.remove('active');
+      multiplier = null;
+    } else {
+      mutators.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      multiplier = btn.dataset.mult;
     }
-    mutators.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    multiplier=btn.dataset.mult;
   });
 });
 
-function makeEntry(val){
-  if(val==='MISS'||multiplier==='M') return {label:'Miss',score:0};
-  if(val==='BULL') return {label:'Bullseye',score:50};
-  if(val==='25') return {label:'25',score:25};
-  const n=parseInt(val);
-  if(isNaN(n)) return null;
-  if(multiplier==='D') return {label:`D${n}`,score:2*n};
-  if(multiplier==='T') return {label:`T${n}`,score:3*n};
-  return {label:`${n}`,score:n};
-}
-function fillNext(entry){
-  const idx=darts.findIndex(x=>x===null);
-  if(idx===-1)return;
-  darts[idx]=entry;render();
-}
-function backspace(){
-  for(let i=2;i>=0;i--){if(darts[i]){darts[i]=null;render();return;}}
-}
-function calculate(){lastSaved=JSON.stringify(darts);render();}
-function amend(){if(lastSaved){darts=JSON.parse(lastSaved);render();}}
-function clearTurn(){darts=[null,null,null];render();}
-function render(){
-  let total=0;
-  for(let i=0;i<3;i++){
-    const d=darts[i];
-    if(d){dEls[i].innerText=d.label;sEls[i].innerText=d.score?d.score:'';total+=d.score;}
-    else{dEls[i].innerText='—';sEls[i].innerText='';}
-  }
-  totalEl.innerText=total;
+function makeEntry(val) {
+  if (val === 'MISS' || multiplier === 'M') return { label: 'Miss', score: 0 };
+  if (val === 'BULL') return { label: 'Bullseye', score: 50 };
+  if (val === '25') return { label: '25', score: 25 };
+  const n = parseInt(val);
+  if (isNaN(n)) return null;
+  if (multiplier === 'D') return { label: `D${n}`, score: 2 * n };
+  if (multiplier === 'T') return { label: `T${n}`, score: 3 * n };
+  return { label: `${n}`, score: n };
 }
 
-// Grid taps
-grid.addEventListener('click',e=>{
-  const cell=e.target.closest('.cell');if(!cell)return;
-  if(cell.id==='backspace'){backspace();return;}
-  const val=cell.innerText.trim();
-  if(!val)return;
-  const entry=makeEntry(val);
-  if(entry)fillNext(entry);
+function fillNext(entry) {
+  const idx = darts.findIndex(x => x === null);
+  if (idx === -1) return;
+  darts[idx] = entry;
+  render();
+}
+
+function backspace() {
+  for (let i = 2; i >= 0; i--) {
+    if (darts[i]) {
+      darts[i] = null;
+      render();
+      return;
+    }
+  }
+}
+
+function calculate() {
+  lastSaved = JSON.stringify(darts);
+  render();
+}
+
+function amend() {
+  if (lastSaved) {
+    darts = JSON.parse(lastSaved);
+    render();
+  }
+}
+
+function clearTurn() {
+  darts = [null, null, null];
+  render();
+}
+
+function render() {
+  let total = 0;
+  for (let i = 0; i < 3; i++) {
+    const d = darts[i];
+    if (d) {
+      dEls[i].innerText = d.label;
+      sEls[i].innerText = d.score ? d.score : '';
+      total += d.score;
+    } else {
+      dEls[i].innerText = '—';
+      sEls[i].innerText = '';
+    }
+  }
+  totalEl.innerText = total;
+}
+
+// Grid clicks
+document.querySelectorAll('.cell').forEach(cell => {
+  cell.addEventListener('click', () => {
+    const val = cell.innerText.trim();
+    if (!val || cell.disabled) return;
+    if (cell.id === 'backspace') {
+      backspace();
+      return;
+    }
+    const entry = makeEntry(val);
+    if (entry) fillNext(entry);
+  });
 });
 
 // Buttons
-calcBtn.onclick=calculate;
-clearBtn.onclick=clearTurn;
-amendBtn.onclick=amend;
+document.getElementById('calcBtn').onclick = calculate;
+document.getElementById('clearBtn').onclick = clearTurn;
+document.getElementById('amendBtn').onclick = amend;
 
 // Theme toggle
-const toggleBtn=document.getElementById('themeToggle');
-toggleBtn.onclick=()=>{
-  const cur=document.body.getAttribute('data-theme');
-  document.body.setAttribute('data-theme',cur==='light'?'dark':'light');
+const toggleBtn = document.getElementById('themeToggle');
+toggleBtn.onclick = () => {
+  const current = document.body.getAttribute('data-theme');
+  document.body.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
 };
 
-// init
-document.body.setAttribute('data-theme','dark');
+// Init
+document.body.setAttribute('data-theme', 'dark');
 render();
 </script>
 </body>
