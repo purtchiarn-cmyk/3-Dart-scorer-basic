@@ -2,265 +2,233 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>3 Dart Calculator — Grid Entry</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>3 Dart Calculator</title>
 <style>
-  :root{
-    --bg:#0b0b0c; --card:#121215; --muted:#9aa0a6; --accent:#0a84ff; --text:#fff;
-    --btn:#1c1c1f; --btn-hover:#2a2a2e;
-    --slot-bg:#0f0f10;
-  }
-  html,body{height:100%;margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);}
-  .wrap{max-width:420px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:14px;min-height:100vh;box-sizing:border-box;}
-  header{display:flex;flex-direction:column;align-items:center;gap:6px}
-  h1{margin:0;font-size:20px}
-  p.desc{margin:0;color:var(--muted);font-size:13px;text-align:center;}
-  .turn-card{background:var(--card);border-radius:14px;padding:12px;box-shadow:0 6px 18px rgba(0,0,0,0.5);}
-  .slots{display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;}
-  .slot{flex:1;background:var(--slot-bg);border-radius:10px;padding:10px;text-align:center;min-height:66px;display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 -2px 6px rgba(0,0,0,0.4);}
-  .slot .label{font-size:12px;color:var(--muted);margin-bottom:6px}
-  .slot .value{font-size:18px;font-weight:600}
-  .slot .sub{font-size:12px;color:var(--muted);margin-top:4px}
-  .total-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-  .total-row .tot-label{color:var(--muted);font-size:13px}
-  .total-row .tot-val{font-size:20px;font-weight:700}
-  .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-  .control-btn{padding:10px 12px;border-radius:10px;background:var(--btn);border:none;color:var(--text);font-size:15px;min-width:96px;box-shadow:0 4px 10px rgba(0,0,0,0.4);cursor:pointer}
-  .control-btn:active{transform:scale(.98)}
-  .control-btn.alt{background:#271a1f}
-  .mutators{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
-  .mutator{padding:10px 12px;border-radius:10px;background:transparent;border:1px solid #222;color:var(--muted);min-width:64px;text-align:center;font-weight:600;cursor:pointer}
-  .mutator.active{background:var(--accent);color:#fff;border-color:transparent;box-shadow:0 6px 14px rgba(10,132,255,0.15)}
-  /* grid */
-  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
-  .cell{background:var(--btn);padding:12px;border-radius:10px;text-align:center;font-weight:700;font-size:16px;cursor:pointer;user-select:none}
-  .cell:active{transform:scale(.98)}
-  .cell.special{font-size:14px}
-  footer{margin-top:auto;text-align:center;color:var(--muted);font-size:12px;padding-bottom:12px}
-  @media(min-width:520px){.wrap{padding:28px}}
+:root {
+  --bg: #0b0b0c;
+  --card: #121215;
+  --text: #fff;
+  --muted: #9aa0a6;
+  --btn: #1c1c1f;
+  --btn-hover: #2a2a2e;
+  --accent: #0a84ff;
+  --slot-bg: #0f0f10;
+}
+[data-theme="light"] {
+  --bg: #f2f2f7;
+  --card: #ffffff;
+  --text: #000;
+  --muted: #555;
+  --btn: #e5e5ea;
+  --btn-hover: #d0d0d7;
+  --accent: #007aff;
+  --slot-bg: #f2f2f7;
+}
+html,body {
+  height:100%;margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--text);transition:background .3s,color .3s;
+}
+.wrap {
+  max-width:420px;margin:0 auto;padding:20px;
+  display:flex;flex-direction:column;gap:14px;min-height:100vh;box-sizing:border-box;
+}
+header {
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+h1 {margin:0;font-size:20px;}
+.theme-toggle {
+  position:absolute;right:0;top:0;background:none;border:none;
+  font-size:22px;color:var(--muted);cursor:pointer;
+  transition:transform .2s;
+}
+.theme-toggle:active{transform:scale(0.9);}
+p.desc {margin:4px 0 18px;text-align:center;color:var(--muted);font-size:13px;}
+
+.turn-card {
+  background:var(--card);border-radius:14px;padding:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.4);transition:background .3s;
+}
+.slots {
+  display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;
+}
+.slot {
+  flex:1;background:var(--slot-bg);border-radius:10px;padding:10px;text-align:center;
+  min-height:66px;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  box-shadow:inset 0 -2px 6px rgba(0,0,0,0.3);transition:background .3s;
+}
+.slot .label {font-size:12px;color:var(--muted);margin-bottom:6px;}
+.slot .value {font-size:18px;font-weight:600;}
+.slot .sub {font-size:12px;color:var(--muted);margin-top:4px;}
+.total-row {
+  display:flex;justify-content:space-between;align-items:center;margin-top:8px;
+}
+.total-row .tot-label {color:var(--muted);font-size:13px;}
+.total-row .tot-val {font-size:20px;font-weight:700;}
+.controls {
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px;
+}
+.control-btn {
+  padding:10px 12px;border-radius:10px;background:var(--btn);
+  border:none;color:var(--text);font-size:15px;min-width:96px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.4);cursor:pointer;
+  transition:background .2s,transform .1s;
+}
+.control-btn:active{transform:scale(.98);}
+.control-btn:hover{background:var(--btn-hover);}
+.mutators {
+  display:flex;gap:8px;justify-content:center;margin-bottom:10px;
+}
+.mutator {
+  padding:10px 12px;border-radius:10px;background:transparent;border:1px solid #222;
+  color:var(--muted);min-width:64px;text-align:center;font-weight:600;cursor:pointer;
+  transition:background .2s,color .2s;
+}
+[data-theme="light"] .mutator{border-color:#ccc;}
+.mutator.active {
+  background:var(--accent);color:#fff;border-color:transparent;
+  box-shadow:0 6px 14px rgba(10,132,255,0.15);
+}
+.grid {
+  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;
+}
+.cell {
+  background:var(--btn);padding:12px;border-radius:10px;text-align:center;
+  font-weight:700;font-size:16px;cursor:pointer;user-select:none;
+  transition:background .2s,transform .1s;
+}
+.cell:active{transform:scale(.97);}
+.cell:hover{background:var(--btn-hover);}
+footer {
+  margin-top:auto;text-align:center;color:var(--muted);font-size:12px;padding-bottom:12px;
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <h1>🎯 3-Dart Calculator</h1>
-    <p class="desc">Tap a multiplier, then tap a target in the 5×5 grid. Slots fill left→right. Use Backspace to edit.</p>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle light/dark">🌗</button>
   </header>
+  <p class="desc">Tap Double or Treble if needed, then a number (25/BULL/Miss). Slots fill left→right.</p>
 
   <section class="turn-card" aria-label="Current turn">
-    <div class="slots" id="slots">
-      <div class="slot" id="slot1">
-        <div class="label">Dart 1</div>
-        <div class="value" id="d1">—</div>
-        <div class="sub" id="s1"></div>
-      </div>
-      <div class="slot" id="slot2">
-        <div class="label">Dart 2</div>
-        <div class="value" id="d2">—</div>
-        <div class="sub" id="s2"></div>
-      </div>
-      <div class="slot" id="slot3">
-        <div class="label">Dart 3</div>
-        <div class="value" id="d3">—</div>
-        <div class="sub" id="s3"></div>
-      </div>
+    <div class="slots">
+      <div class="slot"><div class="label">Dart 1</div><div class="value" id="d1">—</div><div class="sub" id="s1"></div></div>
+      <div class="slot"><div class="label">Dart 2</div><div class="value" id="d2">—</div><div class="sub" id="s2"></div></div>
+      <div class="slot"><div class="label">Dart 3</div><div class="value" id="d3">—</div><div class="sub" id="s3"></div></div>
     </div>
+    <div class="total-row"><div class="tot-label">Turn Total</div><div class="tot-val" id="total">0</div></div>
 
-    <div class="total-row">
-      <div class="tot-label">Turn Total</div>
-      <div class="tot-val" id="total">0</div>
-    </div>
-
-    <div style="height:12px"></div>
-
-    <div class="mutators" role="toolbar" aria-label="Multipliers">
-      <button class="mutator active" id="singleBtn" data-mult="S">S</button>
-      <button class="mutator" id="doubleBtn" data-mult="D">D</button>
-      <button class="mutator" id="trebleBtn" data-mult="T">T</button>
-      <button class="mutator" id="missBtn" data-mult="M">Miss</button>
+    <div class="mutators">
+      <button class="mutator" data-mult="D" id="doubleBtn">D</button>
+      <button class="mutator" data-mult="T" id="trebleBtn">T</button>
+      <button class="mutator" data-mult="M" id="missBtn">Miss</button>
     </div>
 
     <div class="grid" id="grid">
-      <!-- row 1 -->
-      <div class="cell">20</div>
-      <div class="cell">19</div>
-      <div class="cell">18</div>
-      <div class="cell">17</div>
-      <div class="cell">16</div>
-      <!-- row 2 -->
-      <div class="cell">15</div>
-      <div class="cell">14</div>
-      <div class="cell">13</div>
-      <div class="cell">12</div>
-      <div class="cell">11</div>
-      <!-- row 3 -->
-      <div class="cell">10</div>
-      <div class="cell">9</div>
-      <div class="cell">8</div>
-      <div class="cell">7</div>
-      <div class="cell">6</div>
-      <!-- row 4 -->
-      <div class="cell">5</div>
-      <div class="cell">4</div>
-      <div class="cell">3</div>
-      <div class="cell">2</div>
-      <div class="cell">1</div>
-      <!-- row 5 (specials to make 25 cells) -->
-      <div class="cell special" data-special="25">25</div>
-      <div class="cell special" data-special="BULL">BULL</div>
-      <div class="cell special" data-special="OB">Outer 25</div>
-      <div class="cell special" data-special="MISS">MISS</div>
-      <div class="cell special" id="backspace">⌫</div>
+      <!-- 20–16 -->
+      <div class="cell">20</div><div class="cell">19</div><div class="cell">18</div><div class="cell">17</div><div class="cell">16</div>
+      <!-- 15–11 -->
+      <div class="cell">15</div><div class="cell">14</div><div class="cell">13</div><div class="cell">12</div><div class="cell">11</div>
+      <!-- 10–6 -->
+      <div class="cell">10</div><div class="cell">9</div><div class="cell">8</div><div class="cell">7</div><div class="cell">6</div>
+      <!-- 5–1 -->
+      <div class="cell">5</div><div class="cell">4</div><div class="cell">3</div><div class="cell">2</div><div class="cell">1</div>
+      <!-- specials -->
+      <div class="cell">25</div><div class="cell">BULL</div><div class="cell">MISS</div><div class="cell" id="backspace">⌫</div><div class="cell" id="empty"></div>
     </div>
 
     <div class="controls" style="margin-top:12px;">
       <button class="control-btn" id="calcBtn">Calculate</button>
-      <button class="control-btn alt" id="clearBtn">Clear Turn</button>
+      <button class="control-btn" id="clearBtn">Clear Turn</button>
       <button class="control-btn" id="amendBtn">Amend</button>
     </div>
   </section>
 
-  <footer>Tap numbers to fill Dart 1 → Dart 2 → Dart 3. Multiplier applies to next taps until changed.</footer>
+  <footer>Tap numbers to fill Dart 1 → Dart 3.  🌗 toggles light/dark theme.</footer>
 </div>
 
 <script>
-  // State
-  let multiplier = 'S'; // S, D, T, M
-  let darts = [null, null, null]; // each: {label, score, raw}
-  let lastSaved = null;
+let multiplier = null; // D, T, M, null=single
+let darts = [null,null,null];
+let lastSaved = null;
 
-  // Elements
-  const dEls = [document.getElementById('d1'), document.getElementById('d2'), document.getElementById('d3')];
-  const sEls = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3')];
-  const totalEl = document.getElementById('total');
-  const mutators = document.querySelectorAll('.mutator');
-  const grid = document.getElementById('grid');
+// Elements
+const dEls=[d1,d2,d3].map(id=>document.getElementById(id));
+const sEls=[s1,s2,s3].map(id=>document.getElementById(id));
+const totalEl=document.getElementById('total');
+const mutators=document.querySelectorAll('.mutator');
 
-  // Multiplier toggles
-  mutators.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      mutators.forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      multiplier = btn.dataset.mult;
-    });
+// Multiplier toggle logic
+mutators.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(btn.classList.contains('active')){
+      btn.classList.remove('active');multiplier=null;return;
+    }
+    mutators.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    multiplier=btn.dataset.mult;
   });
+});
 
-  // Fill next slot
-  function fillNext(entry){
-    // entry: {label:string, score:number, raw:string}
-    const idx = darts.findIndex(x=>x===null);
-    if(idx === -1) return; // all full
-    darts[idx] = entry;
-    render();
+function makeEntry(val){
+  if(val==='MISS'||multiplier==='M') return {label:'Miss',score:0};
+  if(val==='BULL') return {label:'Bullseye',score:50};
+  if(val==='25') return {label:'25',score:25};
+  const n=parseInt(val);
+  if(isNaN(n)) return null;
+  if(multiplier==='D') return {label:`D${n}`,score:2*n};
+  if(multiplier==='T') return {label:`T${n}`,score:3*n};
+  return {label:`${n}`,score:n};
+}
+function fillNext(entry){
+  const idx=darts.findIndex(x=>x===null);
+  if(idx===-1)return;
+  darts[idx]=entry;render();
+}
+function backspace(){
+  for(let i=2;i>=0;i--){if(darts[i]){darts[i]=null;render();return;}}
+}
+function calculate(){lastSaved=JSON.stringify(darts);render();}
+function amend(){if(lastSaved){darts=JSON.parse(lastSaved);render();}}
+function clearTurn(){darts=[null,null,null];render();}
+function render(){
+  let total=0;
+  for(let i=0;i<3;i++){
+    const d=darts[i];
+    if(d){dEls[i].innerText=d.label;sEls[i].innerText=d.score?d.score:'';total+=d.score;}
+    else{dEls[i].innerText='—';sEls[i].innerText='';}
   }
+  totalEl.innerText=total;
+}
 
-  // Convert tap -> entry using current multiplier
-  function makeEntryFromValue(val){
-    // val may be numeric string or special like 'BULL','MISS','25','OB'
-    if(val === 'MISS' || multiplier === 'M') return {label:'Miss', score:0, raw:'MISS'};
-    if(val === 'BULL') return {label:'Bullseye', score:50, raw:'BULL'};
-    if(val === '25' || val === 'OB') {
-      // outer bull 25
-      return {label:'Outer Bull', score:25, raw:'25'};
-    }
-    // numeric
-    const n = parseInt(val);
-    if(isNaN(n)) return null;
-    if(multiplier === 'S') return {label:'Single ' + n, score:n, raw: ( 'S'+n )};
-    if(multiplier === 'D') return {label:'Double ' + n, score: 2*n, raw: ( 'D'+n )};
-    if(multiplier === 'T') return {label:'Treble ' + n, score: 3*n, raw: ( 'T'+n )};
-    return null;
-  }
+// Grid taps
+grid.addEventListener('click',e=>{
+  const cell=e.target.closest('.cell');if(!cell)return;
+  if(cell.id==='backspace'){backspace();return;}
+  const val=cell.innerText.trim();
+  if(!val)return;
+  const entry=makeEntry(val);
+  if(entry)fillNext(entry);
+});
 
-  // Grid event binding
-  grid.addEventListener('click', (ev)=>{
-    const cell = ev.target.closest('.cell');
-    if(!cell) return;
-    if(cell.id === 'backspace'){
-      backspace();
-      return;
-    }
-    const special = cell.dataset.special;
-    const txt = cell.innerText.trim();
-    const val = special || txt;
-    if(val === 'BULL' || val === '25' || val === 'OB' || val === 'MISS' || /^[0-9]+$/.test(val)){
-      const entry = makeEntryFromValue(val);
-      if(entry) fillNext(entry);
-    }
-  });
+// Buttons
+calcBtn.onclick=calculate;
+clearBtn.onclick=clearTurn;
+amendBtn.onclick=amend;
 
-  // Calculate & render
-  function calculate(){
-    // Save last input as undo capability
-    lastSaved = JSON.stringify(darts);
-    render(); // total updates live as we fill, but allow manual calc for parity with previous UI
-    // (no persistent tally per requirement)
-  }
+// Theme toggle
+const toggleBtn=document.getElementById('themeToggle');
+toggleBtn.onclick=()=>{
+  const cur=document.body.getAttribute('data-theme');
+  document.body.setAttribute('data-theme',cur==='light'?'dark':'light');
+};
 
-  function amend(){
-    if(!lastSaved) return;
-    darts = JSON.parse(lastSaved);
-    // normalize: JSON nulls will be null
-    render();
-  }
-
-  function clearTurn(){
-    darts = [null, null, null];
-    render();
-  }
-
-  function backspace(){
-    // remove last filled
-    for(let i = 2; i >= 0; i--){
-      if(darts[i] !== null){
-        darts[i] = null;
-        render();
-        return;
-      }
-    }
-  }
-
-  function render(){
-    let total = 0;
-    for(let i=0;i<3;i++){
-      const d = darts[i];
-      if(d){
-        dEls[i].innerText = d.label;
-        sEls[i].innerText = d.score === 0 ? '' : d.score;
-        total += d.score;
-      } else {
-        dEls[i].innerText = '—';
-        sEls[i].innerText = '';
-      }
-    }
-    totalEl.innerText = total;
-  }
-
-  // Buttons
-  document.getElementById('calcBtn').addEventListener('click', ()=>{ calculate(); });
-  document.getElementById('clearBtn').addEventListener('click', ()=>{ clearTurn(); });
-  document.getElementById('amendBtn').addEventListener('click', ()=>{
-    if(lastSaved){
-      amend();
-      // show a small hint by temporarily toggling one of the mutator buttons visually (optional)
-    }
-  });
-
-  // Init render
-  render();
-
-  // Keyboard support (optional): number keys to fill with current multiplier
-  window.addEventListener('keydown', (e)=>{
-    if(e.key === 'Backspace') { e.preventDefault(); backspace(); return; }
-    if(e.key === 'Enter'){ calculate(); return; }
-    if(e.key === 'c' || e.key === 'C'){ clearTurn(); return; }
-    // digits
-    if(/^\d$/.test(e.key)){
-      // simple: treat single digit. For convenience only.
-      const entry = makeEntryFromValue(e.key);
-      if(entry) fillNext(entry);
-    }
-  });
+// init
+document.body.setAttribute('data-theme','dark');
+render();
 </script>
 </body>
 </html>
